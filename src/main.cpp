@@ -1,10 +1,13 @@
 #include <WiFi.h>
 #include <HTTPClient.h>
+#include <Arduino.h>
 #include <ArduinoJson.h>
+#include "env.h"
 
-const char* ssid = "your_SSID";
-const char* password = "your_PASSWORD";
-const char* server_address = "your_SERVER_ADDRESS";
+
+const char* WIFI_SSID = "Zuko_Network";
+const char* WIFI_PASSWORD = "Flames123";
+const char* server_address = "ecse-three-led-api.onrender.com";
 
 // Define pin numbers for LEDs
 int led1 = 2;
@@ -20,13 +23,14 @@ void setup() {
   
 
   // Connect to Wi-Fi network
-  WiFi.begin(ssid, password);
+  WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
   while (WiFi.status() != WL_CONNECTED) {
     delay(1000);
     Serial.println("Connecting to WiFi...");
   }
   Serial.println("Connected to WiFi");
-
+  Serial.println("IP Address: ");
+  Serial.println(WiFi.localIP());
 }
 
 void loop() {
