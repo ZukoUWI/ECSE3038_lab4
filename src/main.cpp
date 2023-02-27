@@ -7,7 +7,7 @@
 
 const char* WIFI_SSID = "Zuko_Network";
 const char* WIFI_PASSWORD = "Flames123";
-const char* server_address = "ecse-three-led-api.onrender.com";
+const char* server_address = "https://ecse-three-led-api.onrender.com";
 
 // Define pin numbers for LEDs
 int led1 = 2;
@@ -41,15 +41,16 @@ void loop() {
     // Send GET request to server
     String url = server_address + "/api/state";
     http.begin(url);
-    int http_code = http.GET();
+    http.addHeader("X-API-KEY","Hilda#7324"); //APIKey for Hilda
+    int HTTPResponseCode = http.GET();
 
-    if (http_code > 0) {
+    if (HTTPResponseCode > 0) {
       // If response is received
       String response = http.getString();
       Serial.println(response);
       
       // Parse JSON response
-      StaticJsonDocument<200> doc;
+      StaticJsonDocument<1024> doc;
       DeserializationError error = deserializeJson(doc, response);
 
       if (error) {
@@ -67,10 +68,12 @@ void loop() {
       }
     } else {
       Serial.println("Failed to connect to server");
+      Serial.println(HTTPResponseCode);
     }
 
     http.end();
   }
 
-  delay(5000); // Wait for 5 seconds before making next request
+  delay(500); // Wait for before making next request
+
 }
